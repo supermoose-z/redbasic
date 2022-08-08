@@ -35,6 +35,7 @@ namespace rbasic::parser
         void parseExprList(std::vector<rbasic::ast::ASTNode*> &exprs);
         rbasic::ast::ASTNode *parseExpr();
         rbasic::ast::ASTNode *parsePrint();
+        rbasic::ast::ASTNode *parseInput();
         rbasic::ast::ASTNode *parseAssign();
         rbasic::ast::ASTNode *parseStatement();
 

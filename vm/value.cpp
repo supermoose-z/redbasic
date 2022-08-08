@@ -64,7 +64,7 @@ void Value::release()
     {
         char *str = reinterpret_cast<char*>(data);
 
-        std::cout << "releasing string: " << str << std::endl;
+        //std::cout << "releasing string: " << str << std::endl;
 
         delete[] str;
     }

@@ -231,11 +231,57 @@ ASTNode *Parser::parsePrint()
         // parse print arguments
         vector<ASTNode*> args;
         parseExprList(args);
+        
+        reverse(args.begin(), args.end());
 
         if (args.size() == 0)
             throw ParserError("PRINT requires at least one argument");
 
         PrintNode *node = new PrintNode(args);
+        addNode(node);
+
+        return node;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+ASTNode *Parser::parseInput()
+{
+    LexerToken *tok = getNextToken();
+
+    if (tok->type == LexerToken::Identifier && tok->strValue == "INPUT")
+    {
+        // consume INPUT token
+        tokens.pop();
+        
+        // get prompt expression
+        ASTNode *prompt = parseExpr();
+        string varName;
+
+        // make sure next token is a comma
+        tok = getNextToken();
+        if (tok->type == LexerToken::Comma)
+            tokens.pop();
+        else
+            throw ParserError("Expected ',' but found " + tok->toString() + " instead");
+
+        // get variable name to save input to
+        tok = getNextToken();
+        if (tok->type == LexerToken::Identifier && !isReservedWord(tok->strValue))
+        {
+            varName = tok->strValue;
+            tokens.pop();
+        }
+        else
+        {
+            throw ParserError("Cannot use reserved word '" + tok->strValue + "' as a variable name");
+        }
+
+        // create node
+        InputNode *node = new InputNode(varName, prompt);
         addNode(node);
 
         return node;
@@ -281,6 +327,9 @@ ASTNode *Parser::parseStatement()
     ASTNode *stat;
 
     stat = parsePrint();
+
+    if (stat == NULL)
+        stat = parseInput();
 
     if (stat == NULL)
         stat = parseAssign();

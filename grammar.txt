@@ -12,8 +12,13 @@ OP = +|-|*|/|%|=|<>|<|<=|>|>=
 ; where each rule is a list of tokens, rules can be referenced recursively to create more complex parser rules
 
 stat        = "PRINT" exprList 
-            | IDENTIFIER '=' expr
+            | "INPUT" expr, IDENTIFIER 
+            | IDENTIFIER '=' expr 
+            | IF expr THEN stats END
+            | IF expr THEN stats ELSE stats END
+            | IF expr THEN stats ELSEIF expr THEN stats END
             ;
+
 
 exprList    = expr [',' exprList] ;
 

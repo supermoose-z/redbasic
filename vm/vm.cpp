@@ -347,7 +347,15 @@ void BasicVM::exec(Instr *inst)
             break;
 
         case Instr::InstInput: 
-            cout << "INPUT not implemented" << endl;
+            {
+                Value *prompt = popVal();
+                cout << prompt->toString() << " ";
+
+                string input;
+                getline(cin, input);
+
+                scope->setVar(inst->strParam, new Value(input.c_str()));
+            }
             break;
 
         case Instr::InstPushVal: 

@@ -4,6 +4,7 @@
 
 #include "valuenode.hpp"
 #include "printnode.hpp"
+#include "inputnode.hpp"
 #include "assignnode.hpp"
 #include "binopnode.hpp"
 
