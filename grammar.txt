@@ -1,0 +1,27 @@
+
+; simplified BNF-like grammar definition for the dialect of BASIC this interpretor supports
+
+; Lexical tokens
+IDENTIFIER = [a-zA-Z0-9_]
+OP = +|-|*|/|%|=|<>|<|<=|>|>=
+
+
+; Parser rules
+; e.g.
+; nameOfRule = token1 token2 | token1 token2 | token3 ;
+; where each rule is a list of tokens, rules can be referenced recursively to create more complex parser rules
+
+stat        = "PRINT" exprList 
+            | IDENTIFIER '=' expr
+            ;
+
+exprList    = expr [',' exprList] ;
+
+expr        = '(' expr ')' 
+            | expr OP expr 
+            | STRING 
+            | NUMBER 
+            | BOOL 
+            ;
+        
+     
